@@ -65,9 +65,11 @@
 						<a class="text-black" href="#">
 						</a>
 					</div>
+
+				<a class="btn btn-link m-auto text-xl-left" href="{{route('recuperacion')}}">¿Olvidó su contraseña?</a>
 				<!-- <button class="btn btn-info m-4 mx-auto">Iniciar Sesión</button> -->
 				<!-- El siguiente 'a' es temporal, debe usarse el boton comentado de arriba -->
-				<a class="btn btn-info m-4 mx-auto" href="{{route('galeria')}}">Iniciar Sesión</a><br>
+				<a class="btn btn-info m-4 mx-auto" href="{{route('galeria')}}">Iniciar Sesión</a><br>				
 				</div>
 			</form>	
 		</div>
