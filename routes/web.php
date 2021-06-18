@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/','index')->name('index');
 Route::view('/galeria','galeria')->name('galeria');
+Route::view('recuperacion','recuperacion')->name('recuperacion');
