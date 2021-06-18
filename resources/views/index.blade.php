@@ -55,9 +55,20 @@
 				<h6 class="mb-3">LOGIN</h6>
 				<input type="text" class="form-control" placeholder="Usuario">
 				<input type="text" class="form-control mt-2" placeholder="Contraseña">
+				<div class="form-check text-left mt-3">
+					<input class="form-check-input" type="checkbox" name="remember" id="remember_me" value="option1" >
+					<label class="form-check-label text-sans text-muted" for="exampleRadios1">Mantener sesión activa
+					</label>
+				</div>
+				<div class="d-flex justify-content-between">
+					<div class="text-left mt-4">
+						<a class="text-black" href="#">
+						</a>
+					</div>
 				<!-- <button class="btn btn-info m-4 mx-auto">Iniciar Sesión</button> -->
 				<!-- El siguiente 'a' es temporal, debe usarse el boton comentado de arriba -->
 				<a class="btn btn-info m-4 mx-auto" href="{{route('galeria')}}">Iniciar Sesión</a><br>
+				</div>
 			</form>	
 		</div>
 	  </div>
