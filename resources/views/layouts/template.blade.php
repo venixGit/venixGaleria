@@ -64,7 +64,7 @@
 			Cerrar Sesión
 			</button> -->
 			<!-- El siguiente 'a' es temporal, debe usarse el boton comentado de arriba -->
-			<a class="btn btn-outline-danger mt-2" href="">Cerrar Sesión</a>
+			<a class="btn btn-outline-danger mt-2" href="{{url('/logout')}}">Cerrar Sesión</a>
 		</div>
 	
 		<section class="border mt-3 p-2">

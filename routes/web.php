@@ -18,5 +18,6 @@ use Illuminate\Support\Facades\Route;
 // Route::view('recuperacion','recuperacion')->name('recuperacion');
 
 Route::view('/','home')->name('home')->middleware(['auth']);
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
