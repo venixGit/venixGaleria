@@ -12,3 +12,7 @@ function showPhoto(control){
 	$('#showImg').modal('show');
 	console.log("control", control);
 }
+
+function previewPhoto() {
+   imgPhoto.src=URL.createObjectURL(event.target.files[0]);
+}
