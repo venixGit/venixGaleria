@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{{ config('app.name', 'Laravel') }}</title>
 	<link rel="icon" href="{{asset('img/app/logo.png')}}">
+	{{-- <link rel="icon" href="{{asset($blogs->icono_blog)}}">  --}}
 	<!--===============================
 	=            CSS STYLE            =
 	================================-->
@@ -31,6 +32,7 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 	<script src="{{asset('vendor/tagsinput/js/tagsinput.js')}}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" integrity="sha512-MqEDqB7me8klOYxXXQlB4LaNf9V9S0+sG1i8LtPOYmHqICuEZ9ZLbyV3qIfADg2UJcLyCm4fawNiFvnYbcBJ1w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<!--====  End of JS SCRIPT  ====-->	
 </head>
 <body>
@@ -60,6 +62,7 @@
 			<button type="button" class="btn btn-success mt-2" data-toggle="modal" data-target="#newImg">
 				Nueva Imagen
 			</button>
+			
 			<!-- <button type="button" class="btn btn-outline-danger mt-2" data-toggle="modal" data-target="#newImg">
 			Cerrar Sesión
 			</button> -->
