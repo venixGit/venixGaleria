@@ -41,18 +41,22 @@
 	=============================-->		
 	<section>
 		<nav class="bg-info py-2">
-			<div class="row d-flex justify-content-center">
-				<div class="col-12 text-center">
-					<img src="{{asset('img/app/logo.png')}}" alt="logo.png" class="img-fluid">
+			<form action="{{route('home')}}" method="GET" >
+				<div class="row d-flex justify-content-center">
+					<div class="col-12 text-center">
+						<img src="{{asset('img/app/logo.png')}}" alt="logo.png" class="img-fluid">
+					</div>
+
+					<div class="col-12 text-center">
+						<h1 class="display-2 text-white text-sans">PHOCO GALLERY</h1>
+					</div>
+					
+					<div class="col-10 col-sm-10 col-md-8 col-lg-10 col-xl-6 mb-3 text-center">
+						<input id="txtBuscar" name="txtBuscar" type="text" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen">
+						<button class="btn btn-outline-light">Buscar</button>
+					</div>
 				</div>
-				<div class="col-12 text-center">
-					<h1 class="display-2 text-white text-sans">PHOCO GALLERY</h1>
-				</div>
-				<div class="col-10 col-sm-10 col-md-8 col-lg-10 col-xl-6 mb-3 text-center">
-					<input type="text" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen">
-					<button class="btn btn-outline-light">Buscar</button>
-				</div>
-			</div>
+			</form>
 		</nav>
 	</section>
 

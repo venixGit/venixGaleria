@@ -30,11 +30,20 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '8363ece0a8c1b9e4e5e32b00c91f425d88cc84e7',
+    'reference' => '25aa73df8ae8e5c4a2109d05550bcb711cf6c165',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
   array (
+    'algolia/algoliasearch-client-php' => 
+    array (
+      'pretty_version' => '3.0.2',
+      'version' => '3.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '421abbfb085c8ae74d298a6f259ebfd69897e625',
+    ),
     'asm89/stack-cors' => 
     array (
       'pretty_version' => 'v2.0.3',
@@ -460,7 +469,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '8363ece0a8c1b9e4e5e32b00c91f425d88cc84e7',
+      'reference' => '25aa73df8ae8e5c4a2109d05550bcb711cf6c165',
+    ),
+    'laravel/scout' => 
+    array (
+      'pretty_version' => 'v9.1.2',
+      'version' => '9.1.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ccd34d0efd99489059e3e2bcd223aaa360af62cf',
     ),
     'laravel/tinker' => 
     array (
