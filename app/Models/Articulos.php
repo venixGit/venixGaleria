@@ -4,18 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Articulos extends Model
 {
+    use Searchable;
     use HasFactory;
     protected $table = "articulos";
     protected $primaryKey = "id_articulo";
 
     protected $fillable = [
-        'titulo_articulo', 'palabras_clave_articulo','historia_articulo'
+        'titulo_articulo', 'palabras_clave_articulo','historia_articulo', 'img_articulo'
     ];
-    // protected $guarded = [];
-    // public function getRouteKeyName(){
-    //     return 'url';
+    protected $guarded = [];
+    
+    //uso del scope
+    // public function scopePalabra($query, $palabra)
+    // {
+    //     if($palabra)
+    //         return $query->where('palabras_clave_articulo', 'LIKE', "%$palabra%");
     // }
 }
