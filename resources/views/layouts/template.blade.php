@@ -4,6 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="csrf-token" content="{{csrf_token()}}">
+
+
 	<title>{{ config('app.name', 'Laravel') }}</title>
 	<link rel="icon" href="{{asset('img/app/logo.png')}}">
 	{{-- <link rel="icon" href="{{asset($blogs->icono_blog)}}">  --}}
@@ -27,8 +30,9 @@
 	<!--===============================
 	=            JS SCRIPT            =
 	================================-->
-	<!-- bootstrap -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<!-- bootstrap -->	
+	{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 	<script src="{{asset('vendor/tagsinput/js/tagsinput.js')}}"></script>
@@ -36,6 +40,7 @@
 	<!--====  End of JS SCRIPT  ====-->	
 </head>
 <body>
+	<input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
 	<!--============================
 	=            navbar            =
 	=============================-->		
@@ -52,7 +57,7 @@
 					</div>
 					
 					<div class="col-10 col-sm-10 col-md-8 col-lg-10 col-xl-6 mb-3 text-center">
-						<input id="txtBuscar" name="txtBuscar" type="text" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen">
+						<input id="txtIdBuscar" name="txtBuscar" type="text" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen" {{-- value="34" --}}>
 						<button class="btn btn-outline-light">Buscar</button>
 					</div>
 				</div>

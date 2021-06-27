@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Articulos;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage;  
+use Illuminate\Support\Facades\Response;  
 use Illuminate\Support\Facades\DB;
 
 class ArticulosController extends Controller
@@ -17,13 +18,17 @@ class ArticulosController extends Controller
         * entonces que me muestre todos los articulos creados.
         * @var [type]
         */
+        // $palabra = $request->get('id_art');
+        // dd($palabra);
         $palabra = $request->get('txtBuscar');
         if ($palabra != "") {
-            $data = Articulos::where('palabras_clave_articulo', 'LIKE', '%'. $palabra .'%')->get();
-            // dd($data);
+            $data = Articulos::where('palabras_clave_articulo', 'LIKE', '%'. $palabra .'%')
+                                ->where('estado', "=" , 1)
+                                ->get();
             return view('home', compact('data'));
         }else{
-            $data = Articulos::all();
+            $data = Articulos::where('estado', "=" , 1)
+                                ->get();
         }
         return view('home', compact('data'));   
     }
@@ -52,7 +57,7 @@ class ArticulosController extends Controller
         $articulos->historia_articulo = $request->get('txtHistoria');
 
         if($request->hasFile('imgNew')){
-            $destino = 'public/app/img';
+            $destino = '/foto';
             //obtiene el archivo con el metodo file()
             $imgPath = $request->file('imgNew');
             //time() asigna un numero aleatorio al archivo
@@ -61,35 +66,22 @@ class ArticulosController extends Controller
             $path = $request->file('imgNew')->storeAs($destino,$imgName);
             //guarda la ruta en la base de bd
             $articulos->img_articulo = ''.$path;
-            // $articulos->img_articulo = '/storage/'.$path;
+            // $articulos->img_articulo = 'storage/'.$path;
         }
         $articulos->save();
         return redirect()->route('home')->with('alert','Articulo agregado exitosamente');
     }
 
-    public function mostrarImg( $filename){
-     
-        // $storage_path = storage_path();
-        // $url = $storage_path.'/storage/'.$filename;// depende de root en el archivo filesystems.php.
-        // //verificamos si el archivo existe y lo retornamos
-        // if (\Storage::exists($filename))
-        // {
-        //     return response()->download($url);
-        // }
-        // //si no se encuentra lanzamos un error 404.
-        // abort(404);
-
-
-        // $path = storage_public('img/' . $filename);
-
-        // if (!File::exists($path)) {
-        // abort(404);
-        // }
-        // $file = File::get($path);
-        // $type = File::mimeType($path);
-        // $response = Response::make($file, 200);
-        // $response->header("Content-Type", $type);
-        // return $response;
+    public function mostrarImg(Request $request){
+        //el request esta apuntando a un variable que yo defino aca en el controlador
+        // $archivo = $content = Storage::get($ruta); 
+        $ruta = $request->img;
+        $tipo = Storage::mimeType($ruta);
+        $archivo = Response::make(Storage::get($ruta),200,[
+            'Content-Type' => $tipo,
+            'Content-Disposition' => 'inline; filename="' . $ruta . '"'
+        ]);
+        return $archivo;
     }
 
     public function busquedas(Request $request){
@@ -105,7 +97,16 @@ class ArticulosController extends Controller
         // 
         //$articulos = new Articulos();
         
-
     }
     
+    public function mostrarDetalle(Request $request){
+        
+        $detalle = Articulos::find($request->idArticulo);
+        // dd($detalle);
+        if ($detalle != NULL) {
+            return $detalle;
+        }else{
+            return "NO";
+        }
+    }
 }

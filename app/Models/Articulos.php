@@ -4,11 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Articulos extends Model
 {
-    use Searchable;
     use HasFactory;
     protected $table = "articulos";
     protected $primaryKey = "id_articulo";

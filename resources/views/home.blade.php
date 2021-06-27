@@ -3,16 +3,16 @@
 @section('photos')
     <div class="card-columns">    
         @foreach ($data as $articulo)
-            <div class="card shadow" onclick="showPhoto(this)">
-               <img id="imgShow" src="{{Storage::url($articulo->img_articulo)}}" class="card-img-top" alt="...">
+            <div class="card shadow" onclick="showPhoto({{$articulo->id_articulo}})">
+               {{--  <input type="text" class="text-muted" name="id_articulos" value="{{$articulo->id_articulo}}"> --}}
+               {{--  <img id="imgMostrarFoto" src="{{Storage::url($articulo->img_articulo)}}" class="card-img-top" alt="..."> --}}
+                <img id="imgMostrar" src="/mostrarImg?img={{$articulo->img_articulo}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     @foreach (explode(',',$articulo->palabras_clave_articulo) as $palabra)
                         <span  onchange="savePhoto()" id="txtPalabrasClave" name="txtPalabrasClave"class="badge badge-pill border border-info px-2 px-1 text-sans">
                             {{$palabra}}
                         </span>
-                    @endforeach
-                    
-                                 
+                    @endforeach                                 
                     <p class="card-text mt-1 text-sans">{{$articulo->titulo_articulo}}</p>
                     <p class="mt-2 mb-0 pb-0 d-flex justify-content-between">
                         <small class="text-muted">{{$articulo->updated_at}}</small>
@@ -21,7 +21,7 @@
             </div>
          @endforeach
 
-    <div class="col-12 d-flex justify-content-end">
+    {{-- <div class="col-12 d-flex justify-content-end">
         <nav aria-label="Page navigation example mt-2">
             <ul class="pagination pagination-sm justify-content-center|justify-content-end">
                 <li class="page-item disabled">
@@ -35,7 +35,7 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </div> --}}
 
 
     <!-- Modal new IMG-->
@@ -131,62 +131,49 @@
     </form>
 
     <!-- Modal show IMG-->
-   
-
-        <div class="modal fade" id="showImg" tabindex="-1" role="dialog" aria-labelledby="newImgTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title text-uppercase" id="showImgTitle">Detalle de Foto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            {{--   @foreach ($data as $articulo) --}}
-              <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                        <img src="{{asset('img/app/blue_photo.svg')}}" class="img-fluid" alt="" style="height: 400px;">
-                    </div>
+    <div class="modal fade" id="showImg" tabindex="-1" role="dialog" aria-labelledby="newImgTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">        
+        <div class="modal-content">
+          <div class="modal-header">      
+            <h5 class="modal-title text-uppercase" id="showImgTitle">Detalle de Foto | <span id="titleModalSpan"></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <img id="imgMostrarFoto" src="" class="img-fluid" alt="" style="height: 400px;">
+                </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
                         <div class="row">
                             <div class="col-12">                 
-                                 <h3 class="display-4" id="titleImg">{{-- {{$articulo->titulo_articulo}} --}}</h3>                       
+                                 <h3 class="display-4" id="titleImg" name="titleImg"></h3>                       
                             </div>
                             <div class="col-12">
-                                 <label id="fechaImg" class="text-muted"> <small>{{-- {{$articulo->created_at}} --}}</small></label>
+                                 <label id="fechaImg" name="fechaImg" class="text-muted"> <small></small></label>
                             </div>  
                             <div class="col-12">
-                                 <label  id="palabrasClave" >
-                                    <span class="badge badge-pill border border-info px-2 py-1">{{-- {{$articulo->palabras_clave_articulo}} --}}</span>
-                                    {{-- <span class="badge badge-pill border border-info px-2 py-1">Lago</span>
-                                    <span class="badge badge-pill border border-info px-2 py-1">Naturaleza</span> --}}
-                                  </label>
+                                <label  id="palabrasClave" >
+                                    <span id="txtMostrarPalabra" name="txtMostrarPalabra" class="badge badge-pill border border-info px-2 py-1">  
+                                    </span>
+                                </label>
                             </div>
                             <div class="col-12">
                             <hr class="m-0 p-0">
                                 <!-- <textarea class="text-sans mt-1" id="historyImg" ></textarea> -->
-                                <textarea name="pueb" id="" cols="30" rows="10" class="form-control text-sans">
-                                    {{-- {{$articulo->historia_articulo}} --}}
-                                Un león que vagaba por el bosque se clavó una espina en la pata, y al encontrar un pastor, le pidió que se la extrajera. 
-
-    El pastor lo hizo, y el león, que estaba saciado porque acababa de devorar a otro pastor, siguió su camino sin hacerle daño. Algún tiempo después, el pastor fue condenado, a causa de una falsa acusación, a ser arrojado a los leones en el anfiteatro. Cuando las fieras estaban por devorarlo, una de ellas dijo:
-    —Este es el hombre que me sacó la espina de la pata.
-
-    Al oír esto, los otros leones honorablemente se abstuvieron, y el que habló se comió él solo al Pastor.
-                                </textarea>
-                            </div>  
-                        </div>
+                            <textarea name="pueb" id="textHistoriaArticulo" cols="30" rows="10" class="form-control text-sans" readonly>
+                               
+                            </textarea>
+                        </div>  
                     </div>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-        {{--            @endforeach --}}
-              </div>
             </div>
           </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
         </div>
-
-
+      </div>
+    </div>
 @endsection
