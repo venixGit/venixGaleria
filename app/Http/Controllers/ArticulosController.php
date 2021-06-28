@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class ArticulosController extends Controller
 {
-    public function mostrarArticulos(Request $request){
+    public function mostrarArticulos(Request $data){
        /**
         * Aca lo primero que se hace es una validación que me indica si en el buscador hay algun texto, 
         * en caso de ser esto true que me muestra los datos relacionados con ese valor que es la palabra
@@ -18,25 +18,16 @@ class ArticulosController extends Controller
         * entonces que me muestre todos los articulos creados.
         * @var [type]
         */
-        // $palabra = $request->get('id_art');
-        // dd($palabra);
-        $palabra = $request->get('txtBuscar');
+        $palabra = $data->get('txtBuscar');
         if ($palabra != "") {
             $data = Articulos::where('palabras_clave_articulo', 'LIKE', '%'. $palabra .'%')
                                 ->where('estado', "=" , 1)
                                 ->get();
-            return view('home', compact('data'));
         }else{
             $data = Articulos::where('estado', "=" , 1)
-                                ->get();
+                                ->paginate(1);
         }
         return view('home', compact('data'));   
-    }
-
-
-    public function crearArticulos(){
-        dd('lol');
-       return view('home');
     }
 
 

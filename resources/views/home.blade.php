@@ -19,24 +19,11 @@
                     </p>
                 </div>
             </div>
-         @endforeach
-
-    {{-- <div class="col-12 d-flex justify-content-end">
-        <nav aria-label="Page navigation example mt-2">
-            <ul class="pagination pagination-sm justify-content-center|justify-content-end">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">></a>
-                </li>
-            </ul>
-        </nav>
-    </div> --}}
-
+        @endforeach
+     </div>
+     <div class="col-12 d-flex justify-content-end">
+           {{ $data->links()}}     
+    </div>
 
     <!-- Modal new IMG-->
     <form action="{{route('crearArticulos')}}" method="POST" enctype="multipart/form-data">
