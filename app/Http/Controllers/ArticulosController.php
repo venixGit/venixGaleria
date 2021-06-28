@@ -83,21 +83,6 @@ class ArticulosController extends Controller
         ]);
         return $archivo;
     }
-
-    public function busquedas(Request $request){
-         // $users = DB::select('select * from articulos where palabras_clave_articulo = :palabras_clave_articulo', ['palabras_clave_articulo' => 'hack,virus,testing']);
-        
-        // $palabra =  DB::select('select * from articulos where palabras_clave_articulo =','hack,virus,testing');
-        // $dato = "testing";
-        // $palabra = Articulos::where('palabras_clave_articulo', 'LIKE', '%'. $dato .'%')->get();
-        // $palabra = Articulos::search('key,custom')
-        //     ->within('palabras_clave_articulo')
-        //     ->get();
-        // dd($palabra);
-        // 
-        //$articulos = new Articulos();
-        
-    }
     
     public function mostrarDetalle(Request $request){
         
