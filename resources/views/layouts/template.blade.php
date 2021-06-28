@@ -57,7 +57,7 @@
 					</div>
 					
 					<div class="col-10 col-sm-10 col-md-8 col-lg-10 col-xl-6 mb-3 text-center">
-						<input id="txtIdBuscar" name="txtBuscar" type="text" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen">
+						<input id="txtIdBuscar" name="buscar" type="search" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen" value="">
 						<button class="btn btn-outline-light">Buscar</button>
 					</div>
 				</div>

@@ -18,16 +18,16 @@ class ArticulosController extends Controller
         * entonces que me muestre todos los articulos creados.
         * @var [type]
         */
-        $palabra = $data->get('txtBuscar');
+        $palabra = $data->get('buscar');
         if ($palabra != "") {
-            $data = Articulos::where('palabras_clave_articulo', 'LIKE', '%'. $palabra .'%')
+            $fotos = Articulos::where('palabras_clave_articulo', 'LIKE', '%'. $palabra .'%')
                                 ->where('estado', "=" , 1)
                                 ->get();
         }else{
-            $data = Articulos::where('estado', "=" , 1)
-                                ->paginate(1);
+            $fotos = Articulos::where('estado', "=" , 1)
+                                ->paginate(3);
         }
-        return view('home', compact('data'));   
+        return view('home', get_defined_vars());   
     }
 
 

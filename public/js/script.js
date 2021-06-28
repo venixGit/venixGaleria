@@ -5,7 +5,7 @@
 
 function savePhoto(){
 	let palabras = $("#txtPlabrasClave").val();
-	console.log("palabras", palabras.split(','));
+	// console.log("palabras", palabras.split(','));
 }
 
 // console.log("$('#_token').val()", $('#_token').val());

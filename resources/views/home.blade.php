@@ -1,29 +1,33 @@
 @extends('layouts.template')
 
 @section('photos')
-    <div class="card-columns">    
-        @foreach ($data as $articulo)
-            <div class="card shadow" onclick="showPhoto({{$articulo->id_articulo}})">
-               {{--  <input type="text" class="text-muted" name="id_articulos" value="{{$articulo->id_articulo}}"> --}}
-               {{--  <img id="imgMostrarFoto" src="{{Storage::url($articulo->img_articulo)}}" class="card-img-top" alt="..."> --}}
-                <img id="imgMostrar" src="/mostrarImg?img={{$articulo->img_articulo}}" class="card-img-top" alt="...">
+    <div class="card-columns">
+    @if (isset($fotos) && count($fotos)) 
+        @foreach ($fotos as $foto)
+            <div class="card shadow" onclick="showPhoto({{$foto->id_articulo}})">
+                <img id="imgMostrar" src="/mostrarImg?img={{$foto->img_articulo}}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    @foreach (explode(',',$articulo->palabras_clave_articulo) as $palabra)
+                    @foreach (explode(',',$foto->palabras_clave_articulo) as $palabra)
                         <span  onchange="savePhoto()" id="txtPalabrasClave" name="txtPalabrasClave"class="badge badge-pill border border-info px-2 px-1 text-sans">
-                            {{$palabra}}
+                            #{{$palabra}}
                         </span>
                     @endforeach                                 
-                    <p class="card-text mt-1 text-sans">{{$articulo->titulo_articulo}}</p>
+                    <p class="card-text mt-1 text-sans">{{$foto->titulo_articulo}}</p>
                     <p class="mt-2 mb-0 pb-0 d-flex justify-content-between">
-                        <small class="text-muted">{{$articulo->updated_at}}</small>
+                        <small class="text-muted">{{$foto->updated_at->diffForHumans();}}</small>
                     </p>
                 </div>
             </div>
         @endforeach
-     </div>
-     <div class="col-12 d-flex justify-content-end">
-           {{ $data->links()}}     
+    @else
+        {{-- <h1 class="">Sin resultados</h1> --}}
+        <img class="img-fluid" src="{{asset('img/app/error404.svg')}}" alt="">
+    @endif
     </div>
+    <div class="col-12 d-flex justify-content-end">
+        {{-- {{ $fotos->links()}}      --}}
+    </div> 
+    
 
     <!-- Modal new IMG-->
     <form action="{{route('crearArticulos')}}" method="POST" enctype="multipart/form-data">
@@ -54,8 +58,6 @@
                         </div>
 
                         <img id="imgPhoto" src="{{asset('img/app/blue_photo.svg')}}" class="img-fluid" alt="" style="max-height: 400px;">
-                        <!-- <img src="img/app/p1.jpg" alt="" style="height: 400px;"> -->
-
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
                         <div class="row">
