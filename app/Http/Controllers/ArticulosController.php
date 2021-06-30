@@ -7,6 +7,8 @@ use App\Models\Articulos;
 use Illuminate\Support\Facades\Storage;  
 use Illuminate\Support\Facades\Response;  
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
 
 class ArticulosController extends Controller
 {
@@ -22,7 +24,7 @@ class ArticulosController extends Controller
         if ($palabra != "") {
             $fotos = Articulos::where('palabras_clave_articulo', 'LIKE', '%'. $palabra .'%')
                                 ->where('estado', "=" , 1)
-                                ->get();
+                                ->paginate(3);
         }else{
             $fotos = Articulos::where('estado', "=" , 1)
                                 ->paginate(3);
@@ -41,26 +43,41 @@ class ArticulosController extends Controller
  * @return [type]           [description]
  */
     public function guardarArticulos(Request $request){
-        $articulos = new Articulos();
+        $request->validate([
+            'imagen' => 'required',
+            'titulo' => 'required',
+            'palabras_clave' => 'required',
+            'historia' => 'required',
+        ]);
 
-        $articulos->titulo_articulo = $request->get('txtTitulo');
-        $articulos->palabras_clave_articulo = $request->get('txtPalabrasClave');
-        $articulos->historia_articulo = $request->get('txtHistoria');
+        $articulos = new Articulos();      
+        // return Validator::make($data, [
+        //     'imagen' => ['required'],
+        //     'titulo' => ['required', 'string', 'min:8'],
+        //     'palabras_clave' => ['required', 'string'],
+        //     'historia' => ['required', 'string', 'min:8'],
+        // ]);
 
-        if($request->hasFile('imgNew')){
+        // return redirect()->route('home')->with('Articulo agregado exitosamente');
+
+        $articulos->titulo_articulo = $request->get('titulo');
+        $articulos->palabras_clave_articulo = $request->get('palabras_clave');
+        $articulos->historia_articulo = $request->get('historia');
+
+        if($request->hasFile('imagen')){
             $destino = '/foto';
             //obtiene el archivo con el metodo file()
-            $imgPath = $request->file('imgNew');
+            $imgPath = $request->file('imagen');
             //time() asigna un numero aleatorio al archivo
             $imgName = time() . '.' . $imgPath->getClientOriginalExtension();
             //asignamos donde se va aguardar el archivo con su destion, y el nombre ya creado
-            $path = $request->file('imgNew')->storeAs($destino,$imgName);
+            $path = $request->file('imagen')->storeAs($destino,$imgName);
             //guarda la ruta en la base de bd
             $articulos->img_articulo = ''.$path;
             // $articulos->img_articulo = 'storage/'.$path;
         }
         $articulos->save();
-        return redirect()->route('home')->with('alert','Articulo agregado exitosamente');
+        return redirect()->route('home')->with('guardar','La fotografía ha sido guardada correctamente');
     }
 
     public function mostrarImg(Request $request){
