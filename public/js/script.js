@@ -1,19 +1,123 @@
 
-// $('#txtPlabrasCredito').tagsinput({
-//   itemText: 'label'
-// });
-
+/**
+ * En esta funcion lo que estoy haciendo es validar cada input, a su vez validar que el tamaño y tipo de archivo
+ * sea el especifico para una imagen, tambien se detiene el evento submit con event,preventDefault(), 
+ * y cuando todo este correcto que vuelva a ejecutar el evento
+ * @return {[type]} [description]
+ */
 function savePhoto(){
-	let palabras = $("#txtPlabrasClave").val();
-	// console.log("palabras", palabras.split(','));
+	let palabras = $("#palabras_clave").val();
+/*=============================================
+=            Validacion de inputs          =
+=============================================*/
+	if ($("#titulo").val() == "") {
+		event.preventDefault();
+		Swal.fire({
+	  icon: 'error',
+	  title: 'Requerido',
+	  text: '¡El titulo es requerido!',
+		})
+
+	}else	if ($("#palabras_clave").val() == "") {
+		event.preventDefault();
+		Swal.fire({
+	  icon: 'error',
+	  title: 'Requerido',
+	  text: '¡Ingrese al menos una palabra clave!',
+		})
+
+	}
+	else	if ($("#historia").val() == "") {
+		event.preventDefault();
+		Swal.fire({
+	  icon: 'error',
+	  title: 'Requerida',
+	  text: '¡La historia de la fotografía es requerida!',
+		})
+
+	}else{
+		Swal.fire({
+         icon: 'success',
+         title: 'Su fotografía ha sido guardada correctamente',
+         showConfirmButton: false,
+         timer: 2000 
+     })
+		// estoy llamando al id del form de la vista
+		document.getElementById('guardarImagen').submit();
+	}
+
+
+	if ($("#imagen").val() == "") {
+			event.preventDefault();
+			Swal.fire({
+		  icon: 'error',
+		  title: 'Requerida',
+		  text: '¡La imagen es requerida!',
+			})
+
+		}else{
+
+		/*=============================================
+		=        Cargando la imagen temporal           =
+			=============================================*/		
+			
+		// if ($('.nuevaImagen').val() != "") {
+			event.preventDefault();
+			// console.log("Hay una imagen");
+
+			var imagen = $('#imagen')[0].files[0];
+			// console.log("la imagen es imagen", imagen);
+
+			/*=========================================================
+			=            Validando tipo y tamaño de imagen            =
+			=========================================================*/			
+			
+			if (imagen["type"] != "image/jpeg" && imagen["type"] != "image/png") {
+					event.preventDefault();
+		   		$('.nuevaImagen').val("");
+		      Swal.fire({
+		        position: "center",
+		        icon: "error",
+		        title: "Error al subir la imagen",
+		        text: "¡La imagen debe estar en formato JPG o PNG!",
+		        showConfirmButton: true,
+		        confirmButtonText: "¡Cerrar!",
+		      });
+
+		  	}else if (imagen["size"] > 3000000) {
+		  		event.preventDefault();
+		    	$('.nuevaImagen').val("");
+		      Swal.fire({
+		        position: "center",
+		        icon: "error",
+		        title: "Error al subir la imagen",
+		        text: "¡La imagen no debe pesar más de 5MB!",
+		        showConfirmButton: true,
+		        confirmButtonText: "¡Cerrar!",
+		      });
+		    }else{
+		    	event.preventDefault();
+		    	var datosImagen = new FileReader();
+					datosImagen.readAsDataURL(imagen);
+		      $(datosImagen).on("load", function (event) {
+		        var rutaImagen = event.target.result;
+		        $(".verFoto").attr("src", rutaImagen);
+		      });	
+		    }
+
+		}
 }
 
 // console.log("$('#_token').val()", $('#_token').val());
 function showPhoto(idArticulo){	 
+	/*================================================
+	=            MOSTRAR DETALLE DE FOTOS            =
+	================================================*/
+	
 	var datos = new FormData();
 	datos.append("idArticulo", idArticulo);
 	datos.append("_token", $('#_token').val());
-	// console.log("idArticulo", idArticulo);
+	console.log("idArticulo", idArticulo);
 	$.ajax({
 		url: "/detalle",
 		method: "POST",
@@ -29,10 +133,10 @@ function showPhoto(idArticulo){
 				$('#titleImg').html(respuesta.titulo_articulo);
 				$('#fechaImg').html(respuesta.fecha);
 				$('#textHistoriaArticulo').val(respuesta.historia_articulo);
-				
+				//separando mis palabras claves
 				var cadena = respuesta.palabras_clave_articulo.split(",");
 				var posicion = cadena.length;
-				console.log("cadena: ", posicion);
+				console.log("posicion", posicion);
 
 				for (var i = 0; i < posicion; i++) {
 			    // console.log(arr[i]);
@@ -55,9 +159,9 @@ function showPhoto(idArticulo){
 		},
 	});
 }
+
 function mostrarFotoInicio(idImagen){
 	console.log("idImagen", idImagen);
-
 }
 
 function previewPhoto() {
