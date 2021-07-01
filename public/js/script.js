@@ -117,7 +117,7 @@ function showPhoto(idArticulo){
 	var datos = new FormData();
 	datos.append("idArticulo", idArticulo);
 	datos.append("_token", $('#_token').val());
-	console.log("idArticulo", idArticulo);
+	// console.log("idArticulo de primer tarjeta", idArticulo);
 	$.ajax({
 		url: "/detalle",
 		method: "POST",
