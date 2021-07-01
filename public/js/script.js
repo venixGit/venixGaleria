@@ -133,24 +133,35 @@ function showPhoto(idArticulo){
 				$('#titleImg').html(respuesta.titulo_articulo);
 				$('#fechaImg').html(respuesta.fecha);
 				$('#textHistoriaArticulo').val(respuesta.historia_articulo);
+				
 				//separando mis palabras claves
 				var cadena = respuesta.palabras_clave_articulo.split(",");
+				console.log("cadena", cadena);
 				var posicion = cadena.length;
-				console.log("posicion", posicion);
 
-				for (var i = 0; i < posicion; i++) {
-			    // console.log(arr[i]);
-			    $('#txtMostrarPalabra').html(cadena[i]);
-			    console.log("cadena[i]", cadena[i]);
-			  }
-				// $.each(cadena, function(index,value){
-				// 	$('#txtMostrarPalabra').val(value);
-				//   console.log( index + " : " + value );
-				//   console.log($('#txtMostrarPalabra').html(value));
+				cadena.forEach(añadirPalabras);
+				function añadirPalabras(datos, index){
+					let span = `<span class="badge badge-pill border border-info px-2 py-1">`+ '#' + datos +`</span>`;
+					$('#palabrasClave').append(span);
+				}
+				// $.map(cadena, function(index,v){
+
+				// 		let span = `<span class="badge badge-pill border border-info px-2 py-1">`+ '#' + index.v +`</span>`;
+				// 		console.log("index", index);
+				// 		$('#palabrasClave').append(span);
+				// 		console.log("span", span);
+
 				// });
+				
+				// console.log("posicion", posicion);
+			 	// for (var i = 0; i < posicion; i++) {
+				 //   // $('#txtMostrarPalabra').text(cadena[1]);
+				 //   let mostrarEspan = `<span class="badge badge-pill border border-info px-2 py-1">`+ '#' +respuesta.palabras_clave_articulo.split(",") +`</span>`;
+				 //   	$('#palabrasClave').append(mostrarEspan);
+				 //   console.log("cadena[i]", cadena[i]);
+			  // 	}
 
-
-				// console.log("respuesta[index].palabras_clave_articulo", respuesta.palabras_clave_articulo);
+		
 				$('#imgMostrarFoto').attr('src','/mostrarImg?img='+respuesta.img_articulo);
 				$('#showImg').modal('show');
 			}else{
