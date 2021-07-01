@@ -28,6 +28,12 @@ class ArticulosController extends Controller
         }else{
             $fotos = Articulos::where('estado', "=" , 1)
                                 ->paginate(3);
+            
+            //ejemplo para validar cada campo                    
+            // $fotos = Articulos::select('id_articulo','titulo_articulo','img_articulo','palabras_clave_articulo')
+            //                     ->where('estado', "=" , 1)
+            //                     ->paginate(3);
+            
         }
         return view('home', get_defined_vars());   
     }
@@ -51,15 +57,6 @@ class ArticulosController extends Controller
         ]);
 
         $articulos = new Articulos();      
-        // return Validator::make($data, [
-        //     'imagen' => ['required'],
-        //     'titulo' => ['required', 'string', 'min:8'],
-        //     'palabras_clave' => ['required', 'string'],
-        //     'historia' => ['required', 'string', 'min:8'],
-        // ]);
-
-        // return redirect()->route('home')->with('Articulo agregado exitosamente');
-
         $articulos->titulo_articulo = $request->get('titulo');
         $articulos->palabras_clave_articulo = $request->get('palabras_clave');
         $articulos->historia_articulo = $request->get('historia');
@@ -68,8 +65,10 @@ class ArticulosController extends Controller
             $destino = '/foto';
             //obtiene el archivo con el metodo file()
             $imgPath = $request->file('imagen');
+            // dd($imgPath);
+            $nombrePath = round(microtime(1)*100);
             //time() asigna un numero aleatorio al archivo
-            $imgName = time() . '.' . $imgPath->getClientOriginalExtension();
+            $imgName = $nombrePath.time() . '.' . $imgPath->getClientOriginalExtension();
             //asignamos donde se va aguardar el archivo con su destion, y el nombre ya creado
             $path = $request->file('imagen')->storeAs($destino,$imgName);
             //guarda la ruta en la base de bd
