@@ -4,17 +4,17 @@
     <div class="card-columns">
     @if (isset($fotos) && count($fotos)) 
         @foreach ($fotos as $foto)
-            <div class="card shadow" onclick="showPhoto({{$foto->id_articulo}})">
-                <img id="imgMostrar" src="/mostrarImg?img={{$foto->img_articulo}}" class="card-img-top" alt="...">
+            <div class="card shadow" onclick="showPhoto({{ (isset($foto->id_articulo)) ? $foto->id_articulo : ""}})">
+                <img id="imgMostrar" src="/mostrarImg?img={{(isset($foto->img_articulo)) ? $foto->img_articulo : ""}}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    @foreach (explode(',',$foto->palabras_clave_articulo) as $palabra)
+                    @foreach (explode(',',(isset($foto->palabras_clave_articulo)) ? $foto->palabras_clave_articulo : "") as $palabra)
                         <span  onchange="savePhoto()" id="txtPalabrasClave" name="txtPalabrasClave"class="badge badge-pill border border-info px-2 px-1 text-sans">
                             #{{$palabra}}
                         </span>
                     @endforeach                                 
-                    <p class="card-text mt-1 text-sans">{{$foto->titulo_articulo}}</p>
+                    <p class="card-text mt-1 text-sans">{{(isset($foto->titulo_articulo)) ? $foto->titulo_articulo : ""}}</p>
                     <p class="mt-2 mb-0 pb-0 d-flex justify-content-between">
-                        <small class="text-muted">{{$foto->updated_at->diffForHumans();}}</small>
+                        <small class="text-muted">{{ (isset($foto->updated_at)) ? $foto->updated_at->diffForHumans() : ""}}</small>
                     </p>
                 </div>
             </div>
