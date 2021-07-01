@@ -50,7 +50,7 @@
 	=============================-->		
 	<section>
 		<nav class="bg-info py-2">
-			<form action="{{route('home')}}" method="GET" >
+			<form action="{{route('home')}}" method="GET">
 				<div class="row d-flex justify-content-center">
 					<div class="col-12 text-center">
 						<img src="{{asset('img/app/logo.png')}}" alt="logo.png" class="img-fluid">
@@ -59,10 +59,12 @@
 					<div class="col-12 text-center">
 						<h1 class="display-2 text-white text-sans">PHOCO GALLERY</h1>
 					</div>
+					<!--==== Con el array_key_exists lo que hago es validar si existe algun arreglo devolviendo un true
+					en caso de que esto sea cierto.  ====-->
 					
 					<div class="col-10 col-sm-10 col-md-8 col-lg-10 col-xl-6 mb-3 text-center">
-						<input id="txtIdBuscar" name="buscar" type="search" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen" value="">
-						<button class="btn btn-outline-light">Buscar</button>
+						<input name="buscar" type="search" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen" value="{{array_key_exists('buscar', $_GET) ? $_GET['buscar'] : ""}}">
+						<button type="submit" class="btn btn-outline-light">Buscar</button>
 					</div>
 				</div>
 			</form>
