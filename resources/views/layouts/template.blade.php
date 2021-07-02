@@ -64,6 +64,7 @@
 					
 					<div class="col-10 col-sm-10 col-md-8 col-lg-10 col-xl-6 mb-3 text-center">
 						<input name="buscar" type="search" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen" value="{{array_key_exists('buscar', $_GET) ? $_GET['buscar'] : ""}}">
+						{{-- <input name="buscar" type="search" class="form-control form-control-lg text-center mb-4" placeholder="Buscar Imagen" value="{{ (isset($data->buscar))? $data->buscar : ""}}"> --}}
 						<button type="submit" class="btn btn-outline-light">Buscar</button>
 					</div>
 				</div>

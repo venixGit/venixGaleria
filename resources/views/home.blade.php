@@ -1,5 +1,5 @@
 @extends('layouts.template')
-
+ 
 @section('photos')
     <div class="card-columns">
     @if (isset($fotos) && count($fotos)) 
@@ -55,7 +55,7 @@
                                     id="imagen"
                                     name="imagen"  
                                     aria-describedby="inputGroupFileAddon04"
-                                    onchange="savePhoto()"
+                                    onchange="previewPhoto()"
                                     
                             >
                             {{-- @error('imagen')
@@ -136,7 +136,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                <button type="submit" id="saveImagen" class="btn btn-success" onclick="savePhoto(event)">Guardar</button>
+                <button type="button" id="saveImagen" class="btn btn-success" onclick="savePhoto()">Guardar</button>
                 {{-- @if(Session::has('message'))
                     {!! Session::get('message') !!}
                 @endif --}}
