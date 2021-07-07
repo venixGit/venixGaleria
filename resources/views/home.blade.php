@@ -30,8 +30,24 @@
     
 
     <!-- Modal new IMG-->
-@if (session('guardar'))
-    {{ session('guardar')}}
+{{-- guardar --}}
+@if (\Session::has('guardar'))
+    <div id="" class="alert-success">
+    {!! \Session::get('guardar')!!}
+    </div>
+@endif
+
+{{-- error --}}
+@if (\Session::has('error'))
+    <div id="" class="alert-danger">
+    {!! \Session::get('error')!!}
+    </div>
+@endif
+
+@if (\Session::has('rev'))
+    <div id="" class="alert-danger">
+    {!! \Session::get('rev')!!}
+    </div>
 @endif
     <form id="guardarImagen" action="{{route('crearArticulos')}}" {{-- class="guardarImagen" --}} method="POST" enctype="multipart/form-data">
         @csrf
@@ -44,6 +60,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+              
               <div class="modal-body">
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
