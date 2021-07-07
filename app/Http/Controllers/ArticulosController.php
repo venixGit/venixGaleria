@@ -87,15 +87,30 @@ class ArticulosController extends Controller
 
     public function mostrarImg(Request $request){
         //el request esta apuntando a un variable que yo defino aca en el controlador
+        //Response: tipo de respuesta predefinido permite mostrar info en un componente html sin tener que procesar en la vivsta
+        //storage->get(devuelve un archivo base 64)
+        //mimeType permite obtener una extencion del archivo que esta selecionado
         // $archivo = $content = Storage::get($ruta); 
-        // $imgPath = "public/img/default/default.jpg";
+        // $default = "storage/app/foto/default.jpg";
         $ruta = $request->img;
-        $tipo = Storage::mimeType($ruta);
-        $archivo = Response::make(Storage::get($ruta),200,[
-            'Content-Type' => $tipo,
-            'Content-Disposition' => 'inline; filename="' . $ruta . '"'
-        ]);
-        return $archivo;
+        try {
+            if (Storage::disk('local')->exists($ruta)) {
+                $tipo = Storage::mimeType($ruta);
+                $archivo = Response::make(Storage::get($ruta),200,[
+                    'Content-Type' => $tipo,
+                    'Content-Disposition' => 'inline; filename="' . $ruta . '"'
+                ]);
+
+            }else{
+                return $this->imagenDefault();
+            }
+            return $archivo;
+
+        } catch (FileNotFoundException $e) {
+            return $this->imagenDefault();
+        }
+
+        
     }
     
     public function mostrarDetalle(Request $request){
@@ -107,5 +122,15 @@ class ArticulosController extends Controller
         }else{
             return "NO";
         }
+    }
+
+    private function imagenDefault(){
+        $ruta = "foto/default.png";
+        $tipo = Storage::mimeType($ruta);
+        $archivo = Response::make(Storage::get($ruta),200,[
+            'Content-Type' => $tipo,
+            'Content-Disposition' => 'inline; filename="' . $ruta . '"'
+        ]);
+        return $archivo;
     }
 }
