@@ -8,10 +8,28 @@
  */
 function savePhoto(){
 	let palabras = $("#palabras_clave");
+	let imagen = $("#imagen");
+	let titulo = $("#titulo");
+	let historia = $("#historia");
 /*=============================================
 =            Validacion de inputs          =
 =============================================*/
-	if ($("#titulo").val() == "") {
+	if ($("#imagen").val() == '') {
+		//addClass me mostrar que input esta con el error
+			imagen.addClass('is-invalid');
+			Swal.fire({
+				  icon: 'error',
+				  title: 'Requerida',
+				  text: '¡La imagen es requerida!',
+			})
+			return false;	
+		}else{
+			//me limpia los inputs
+			imagen.removeClass('is-invalid');
+		}
+
+	if ($("#titulo").val() == '') {
+		titulo.addClass('is-invalid');
 		Swal.fire({
 			  icon: 'error',
 			  title: 'Requerido',
@@ -19,6 +37,8 @@ function savePhoto(){
 		})
 		return false;	
 
+	}else{
+			titulo.removeClass('is-invalid');
 	}
 
 	if (palabras.val() == "") {
@@ -31,11 +51,11 @@ function savePhoto(){
 		return false;	
 
 	}else{
-		palabras.remove('is-invalid');
+		palabras.removeClass('is-invalid');
 	}
 	
 	if ($("#historia").val() == "") {
-		
+		historia.addClass('is-invalid');
 		Swal.fire({
 			  icon: 'error',
 			  title: 'Requerida',
@@ -44,38 +64,25 @@ function savePhoto(){
 		return false;	
 
 	}else{
-	
-	}
-
-
-	if ($("#imagen").val() == "") {
-			
-			Swal.fire({
-				  icon: 'error',
-				  title: 'Requerida',
-				  text: '¡La imagen es requerida!',
-			})
-			return false;	
-		}else{
-
-		}
+		palabras.removeClass('is-invalid');
+	}	
 
 		Swal.fire({
-			  title: 'Are you sure?',
-			  text: "You won't be able to revert this!",
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#3085d6',
-			  cancelButtonColor: '#d33',
-			  confirmButtonText: 'Yes, register it!'
-			}).then((result) => {
-			  if (result.isConfirmed) {
+				  title: '¿Está seguro?',
+				  text: "¡Confirma sí desea publicar la fotografía!",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#17A2B8',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: '¡Sí, publicar!'
+				}).then((result) => {
+				  if (result.isConfirmed) {
 
-			  	let formulario = document.getElementById("guardarImagen");
-			  	formulario.submit();
-			  
-			  }
-			})
+				  	let formulario = document.getElementById("guardarImagen");
+				  	formulario.submit();
+				  
+				  }
+				})
 }
 
 // console.log("$('#_token').val()", $('#_token').val());
