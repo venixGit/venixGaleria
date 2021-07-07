@@ -44,11 +44,6 @@
     </div>
 @endif
 
-@if (\Session::has('rev'))
-    <div id="" class="alert-danger">
-    {!! \Session::get('rev')!!}
-    </div>
-@endif
     <form id="guardarImagen" action="{{route('crearArticulos')}}" {{-- class="guardarImagen" --}} method="POST" enctype="multipart/form-data">
         @csrf
         <div class="modal fade" id="newImg" tabindex="-1" role="dialog" aria-labelledby="newImgTitle" aria-hidden="true">
