@@ -89,6 +89,8 @@ class ArticulosController extends Controller
         //el request esta apuntando a un variable que yo defino aca en el controlador
         //Response: tipo de respuesta predefinido permite mostrar info en un componente html sin tener que procesar en la vivsta
         //storage->get(devuelve un archivo base 64)
+        //Responses son distintas funciones de laravel que permiten responder cualquier solicitud realizada por el navegador u otra
+        //aplicación
         //mimeType permite obtener una extencion del archivo que esta selecionado
         // $archivo = $content = Storage::get($ruta); 
         // $default = "storage/app/foto/default.jpg";
