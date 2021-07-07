@@ -33,7 +33,7 @@ class ArticulosController extends Controller
             // $fotos = Articulos::select('id_articulo','titulo_articulo','img_articulo','palabras_clave_articulo')
             //                     ->where('estado', "=" , 1)
             //                     ->paginate(3);
-            
+          
         }
         return view('home', get_defined_vars());   
     }
@@ -56,32 +56,39 @@ class ArticulosController extends Controller
             'historia' => 'required',
         ]);
 
-        $articulos = new Articulos();      
-        $articulos->titulo_articulo = $request->get('titulo');
-        $articulos->palabras_clave_articulo = $request->get('palabras_clave');
-        $articulos->historia_articulo = $request->get('historia');
-
-        if($request->hasFile('imagen')){
-            $destino = '/foto';
-            //obtiene el archivo con el metodo file()
-            $imgPath = $request->file('imagen');
-            // dd($imgPath);
-            $nombrePath = round(microtime(1)*100);
-            //time() asigna un numero aleatorio al archivo
-            $imgName = $nombrePath.time() . '.' . $imgPath->getClientOriginalExtension();
-            //asignamos donde se va aguardar el archivo con su destion, y el nombre ya creado
-            $path = $request->file('imagen')->storeAs($destino,$imgName);
-            //guarda la ruta en la base de bd
-            $articulos->img_articulo = ''.$path;
-            // $articulos->img_articulo = 'storage/'.$path;
+        try {
+            $articulos = new Articulos();      
+            $articulos->titulo_articulo = $request->get('titulo');
+            $articulos->palabras_clave_articulo = $request->get('palabras_clave');
+            $articulos->historia_articulo = $request->get('historia');
+           
+            if($request->hasFile('imagen')){
+                //obtiene el archivo con el metodo file()   
+                $destino = '/foto';
+                $nombrePath = round(microtime(1)*100);
+                //time() asigna un numero aleatorio al archivo
+                $imgName = $nombrePath.time() . '.' . $imgPath->getClientOriginalExtension();
+                //asignamos donde se va aguardar el archivo con su destion, y el nombre ya creado
+                $path = $request->file('imagen')->storeAs($destino,$imgName);
+                //guarda la ruta en la base de bd  1625353552031625353552 foto/1625353575311625353575.jpg
+                // dd($path);
+                $articulos->img_articulo = ''.$path;       
+                // $articulos->img_articulo = 'storage/'.$path;
+            }
+            $articulos->save();
+            return redirect()->route('home')->with('guardar','La fotografía ha sido guardada correctamente');
+            
+        } catch (\Exception $e) {
+            return redirect()->route('home')->with('error','Ah ocurrido un error al insertar, verifica que tu archivo este disponible');
         }
-        $articulos->save();
-        return redirect()->route('home')->with('guardar','La fotografía ha sido guardada correctamente');
+        
+        
     }
 
     public function mostrarImg(Request $request){
         //el request esta apuntando a un variable que yo defino aca en el controlador
         // $archivo = $content = Storage::get($ruta); 
+        // $imgPath = "public/img/default/default.jpg";
         $ruta = $request->img;
         $tipo = Storage::mimeType($ruta);
         $archivo = Response::make(Storage::get($ruta),200,[
