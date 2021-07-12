@@ -56,7 +56,7 @@ class ArticulosController extends Controller
             'historia' => 'required',
         ]);
 
-        try {
+        // try {
             $articulos = new Articulos();      
             $articulos->titulo_articulo = $request->get('titulo');
             $articulos->palabras_clave_articulo = $request->get('palabras_clave');
@@ -65,6 +65,7 @@ class ArticulosController extends Controller
             if($request->hasFile('imagen')){
                 //obtiene el archivo con el metodo file()   
                 $destino = '/foto';
+                $imgPath = $request->file('imagen');
                 $nombrePath = round(microtime(1)*100);
                 //time() asigna un numero aleatorio al archivo
                 $imgName = $nombrePath.time() . '.' . $imgPath->getClientOriginalExtension();
@@ -78,9 +79,9 @@ class ArticulosController extends Controller
             $articulos->save();
             return redirect()->route('home')->with('guardar','La fotografía ha sido guardada correctamente');
             
-        } catch (\Exception $e) {
-            return redirect()->route('home')->with('error','Ah ocurrido un error al insertar, verifica que tu archivo este disponible');
-        }
+        // } catch (\Exception $e) {
+        //     return redirect()->route('home')->with('error','Ah ocurrido un error al insertar, verifica que tu archivo este disponible');
+        // }
         
         
     }
