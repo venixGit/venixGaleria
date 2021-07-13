@@ -14,4 +14,6 @@ class Palabras extends Model
     protected $fillable = [
         "id_foto", "nombre"
     ];
+
+    
 }

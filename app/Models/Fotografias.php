@@ -15,4 +15,8 @@ class Fotografias extends Model
         'titulo_foto', 'historia_foto', 'img_foto'
     ];
     protected $guarded = [];
+
+    public function palabrasClaves(){
+        return $this->hasMany(Palabras::class, 'id_foto');
+    }
 }

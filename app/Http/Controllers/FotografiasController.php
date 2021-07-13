@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Fotografias;
 use App\Models\Palabras;
+use Illuminate\Support\Facades\Storage;  
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\DB;
 // use App\Http\Controllers\Auth\
 
 class FotografiasController extends Controller
 {
-    public function mostrarFotos(){
+    public function mostrarFotos(Request $data){
         $palabra = $data->get('buscar');
         if ($palabra != "") {
             // $fotos = Fotografias::where('palabras_clave_foto', 'LIKE', '%'. $palabra .'%')
@@ -17,8 +20,21 @@ class FotografiasController extends Controller
             //                     ->paginate(3);
         }else{
             $fotos = Fotografias::where('estado', "=" , 1)
-                                ->paginate(3);
-            
+                                ->with('palabrasClaves')
+                                // ->paginate(3);
+                                ->get();
+
+            dd(json_decode($fotos[0]->palabras_claves));
+            //en este caso es mejor utilizar eloquent
+            // $fotos = DB::table('fotografias')
+            //                         ->leftjoin('palabras_claves', 'fotografias.id_foto', "=", 'palabras_claves.id_foto')
+            //                         // ->select('fotografias.*', 'palabras_claves.nombre' )
+            //                         // ->where('fotografias.id_foto', "==" ,"palabras_claves.id_foto")
+            //                         ->where('fotografias.estado', "=", "1")
+            //                         // ->paginate(3);
+            //                         ->get();
+
+            // dd($fotos);
             //ejemplo para validar cada campo                    
             // $fotos = Articulos::select('id_articulo','titulo_articulo','img_articulo','palabras_clave_articulo')
             //                     ->where('estado', "=" , 1)
@@ -27,6 +43,7 @@ class FotografiasController extends Controller
         }
         return view('home', get_defined_vars());
     }
+
     public function guardarFotos(Request $request){
         $request->validate([
             'imagen' => 'required',
@@ -83,6 +100,33 @@ class FotografiasController extends Controller
 
     }
 
+    public function mostrarImg(Request $data){
+        $ruta = $data->img;
+        try {
+            if (Storage::disk('local')->exists($ruta)) {
+                $tipo = Storage::mimeType($ruta);
+                $archivo = Response::make(Storage::get($ruta),200,[
+                    'Content-Type' => $tipo,
+                    'Content-Disposition' => 'inline; filename="' . $ruta . '"'
+                ]);
+            }else{
+                return $this->imagenDefault();
+            }
+            return $archivo;
+        } catch (FileNotFoundException $e) {
+            return $this->imagenDefault();
+        }
 
+    }
+
+    public function imagenDefault(){
+        $ruta = "foto/default.png";
+        $tipo = Storage::mimeType($ruta);
+        $archivo = Response::make(Storage::get($ruta),200,[
+            'Content-Type' => $tipo,
+            'Content-Disposition' => 'inline; filename="' . $ruta . '"'
+        ]);
+        return $archivo;
+    }
 
 }
