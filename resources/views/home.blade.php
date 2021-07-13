@@ -8,13 +8,16 @@
                 <img id="imgMostrar" src="/mostrarImg?img={{(isset($foto->img_foto)) ? $foto->img_foto : ""}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     @foreach (json_decode($foto->palabrasClaves) as $palabra)
-                        <span  onchange="savePhoto()" id="txtPalabrasClave" name="txtPalabrasClave"class="badge badge-pill border border-info px-2 px-1 text-sans">
-                            #
+                        <span  onchange="savePhoto()" id="txtPalabrasClave" name="txtPalabrasClave"class="badge badge-pill border border-info px-2 px-1 text-sans">                        
+                            <!--====  Cada vez que necesite recorrer datos de otra tabla usar el json_decode, además la variable singular
+                            del primer foreach debe apuntar al nombre de la funcion creada en el modelo, con esto podemos utilizar la
+                            segunda variable singular del foreach para apuntar a la columna de la tabla relacionada. ====-->                 
+                            #{{$palabra->nombre}}
                         </span>
                     @endforeach                                 
                     <p class="card-text mt-1 text-sans">{{(isset($foto->titulo_foto)) ? $foto->titulo_foto : ""}}</p>
                     <p class="mt-2 mb-0 pb-0 d-flex justify-content-between">
-                        <small class="text-muted">{{ (isset($foto->updated_at)) ? $foto->updated_at : ""}}</small>
+                        <small class="text-muted">{{ (isset($foto->updated_at)) ? $foto->updated_at->diffForHumans() : ""}}</small>
                     </p>
                 </div>
             </div>

@@ -15,16 +15,36 @@ class FotografiasController extends Controller
     public function mostrarFotos(Request $data){
         $palabra = $data->get('buscar');
         if ($palabra != "") {
-            // $fotos = Fotografias::where('palabras_clave_foto', 'LIKE', '%'. $palabra .'%')
-            //                     ->where('estado', "=" , 1)
-            //                     ->paginate(3);
+            /**
+             * whereHas() = "permite hacer un filtro en una relacion, y ademas especificar que tipo de filtro necesito
+             * chequear de mi modelo deseado"
+             * Para que esto funcione tienen que estar las respectivas relaciones en en los modelos, ejem. la funcion 
+             * palabrasClaves es una funcion que hace una relacion a la tabla palabras_claves, lo hace utilizando
+             * eloquent.
+             * Una vez tenemos esto utilizamos el whereHas, que aplica una condicion que si la condicion se cumple
+             * que muestre solo ese tipo de valor, tambien dentro de este whereHas se agrega la funcion relacionada
+             * del modelo, una funcion anomima donde se creara un qry que haga la consulta, cabe destacar que si deseamos
+             * utilizar una variable externa podemos integrarla usando use(nombre de la variable)
+             * @var [type]
+             */
+            $fotos = Fotografias::whereHas('palabrasClaves', function ($query) use ($palabra) {
+                                $query->where('nombre', 'LIKE', '%'. $palabra .'%' );
+                                })
+                                ->where('estado', "=" , 1)
+                                ->with('palabrasClaves')
+                                ->paginate(3);
+                                // ->get();
+                                
+            // dd(json_decode($fotos));
+            // dd($fotos);
         }else{
+            //para mostrar las palabras claves lo que hicimos fue crear una funcion relacionada en el modelo, que
+            //lleva una relacion con la tabla que deseamos, de esta manera mandamos esta funcion como parametro a la vista
+            //para poder recorrerla en un foreach
             $fotos = Fotografias::where('estado', "=" , 1)
                                 ->with('palabrasClaves')
-                                // ->paginate(3);
-                                ->get();
+                                ->paginate(3);
 
-            dd(json_decode($fotos[0]->palabras_claves));
             //en este caso es mejor utilizar eloquent
             // $fotos = DB::table('fotografias')
             //                         ->leftjoin('palabras_claves', 'fotografias.id_foto', "=", 'palabras_claves.id_foto')
