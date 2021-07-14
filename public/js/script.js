@@ -85,17 +85,21 @@ function savePhoto(){
 				})
 }
 
+
 // console.log("$('#_token').val()", $('#_token').val());
-function showPhoto(idArticulo){	 
+function showPhoto(idFotografia, fecha){	 
+	console.log("fecha diff", fecha);
 	/*================================================
 	=            MOSTRAR DETALLE DE FOTOS            =
 	================================================*/
 	
-	var datos = new FormData();
-	datos.append("idArticulo", idArticulo);
+	let datos = new FormData();
+	// datos.append("idfoto", idArticulo);
+	datos.append("idFotografia", idFotografia);
 	datos.append("_token", $('#_token').val());
-	// console.log("idArticulo de primer tarjeta", idArticulo);
+	console.log("idFotografia de primer tarjeta", idFotografia);
 	$.ajax({
+		// url: "{{route('mostraDetalle')}}",
 		url: "/detalle",
 		method: "POST",
 		data: datos,
@@ -103,46 +107,32 @@ function showPhoto(idArticulo){
 		contentType: false,
 		processData: false,
 		dataType: "json",
-		success: function (respuesta) {
+		success: function (resp) {
+			let respuesta = resp.detalleFotos;
+			let fecha = resp.fecha;
+			console.log("fecha", fecha);
 			console.log("respuesta", respuesta);
+			// console.log("resp", resp);
 			if (respuesta != "NO") {
-				$('#titleModalSpan').html(respuesta.titulo_articulo);
-				$('#titleImg').html(respuesta.titulo_articulo);
-				$('#fechaImg').html(respuesta.fecha);
-				$('#textHistoriaArticulo').val(respuesta.historia_articulo);
+				$('#titleModalSpan').html(respuesta.titulo_foto);
+				$('#titleImg').html(respuesta.titulo_foto);
+				// let fecha = respuesta.updated_at;
+				$('#fechaImg').html(fecha);
+				$('#textHistoriaFoto').val(respuesta.historia_foto);
 				
-				//separando mis palabras claves
-				var cadena = respuesta.palabras_clave_articulo.split(",");
-				console.log("cadena", cadena);
-				var posicion = cadena.length;
+				//obtengo las palabras claves de la tabla relacionada
+				let palabras = respuesta.palabras_claves;
 
 				// Limpia el div de palabras clave
 				$('#palabrasClave').empty();
-
-				cadena.forEach(añadirPalabras);
+				//recorro dentro de un foreach el arreglo de las palabras que mando desde el controlador
+				palabras.forEach(añadirPalabras);
 				function añadirPalabras(datos, index){
-					let span = `<span class="badge badge-pill border border-info px-2 py-1">`+ '#' + datos +`</span>`;
+					let span = `<span class="badge badge-pill border border-info px-2 py-1">`+ '#' + datos.nombre +`</span>`;
 					$('#palabrasClave').append(span);
 				}
-				// $.map(cadena, function(index,v){
 
-				// 		let span = `<span class="badge badge-pill border border-info px-2 py-1">`+ '#' + index.v +`</span>`;
-				// 		console.log("index", index);
-				// 		$('#palabrasClave').append(span);
-				// 		console.log("span", span);
-
-				// });
-				
-				// console.log("posicion", posicion);
-			 	// for (var i = 0; i < posicion; i++) {
-				 //   // $('#txtMostrarPalabra').text(cadena[1]);
-				 //   let mostrarEspan = `<span class="badge badge-pill border border-info px-2 py-1">`+ '#' +respuesta.palabras_clave_articulo.split(",") +`</span>`;
-				 //   	$('#palabrasClave').append(mostrarEspan);
-				 //   console.log("cadena[i]", cadena[i]);
-			  // 	}
-
-		
-				$('#imgMostrarFoto').attr('src','/mostrarImg?img='+respuesta.img_articulo);
+				$('#imgMostrarFoto').attr('src','/mostrarImg?img='+respuesta.img_foto);
 				$('#showImg').modal('show');
 			}else{
 				console.log("upps ha ocurrido un error");

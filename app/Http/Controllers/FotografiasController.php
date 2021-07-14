@@ -8,6 +8,7 @@ use App\Models\Palabras;
 use Illuminate\Support\Facades\Storage;  
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 // use App\Http\Controllers\Auth\
 
 class FotografiasController extends Controller
@@ -147,6 +148,20 @@ class FotografiasController extends Controller
             'Content-Disposition' => 'inline; filename="' . $ruta . '"'
         ]);
         return $archivo;
+    }
+
+    public function mostrarDetalle(Request $data){
+        $detalleFotos = Fotografias::with('palabrasClaves')
+                                    ->where('estado', "=", 1)
+                                    ->find($data->idFotografia);
+
+        if ($detalleFotos != NULL) {
+            $fecha = $detalleFotos->created_at->diffForHumans();
+            // dd(json_decode($detalleFotos));
+            return get_defined_vars();
+        }else{
+            return "NO";
+        }
     }
 
 }

@@ -11,6 +11,7 @@ Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('', [FotografiasController::class, 'mostrarFotos'])->name('home')->middleware(['auth']);
 Route::post('/fotos', [FotografiasController::class, 'guardarFotos'])->name('guardarFotos');
 Route::get('/mostrarImg', [FotografiasController::class, 'mostrarImg'])->name('mostrarImg');
+Route::post('/detalle',[FotografiasController::class,'mostrarDetalle'])->name('mostrarDetalle');
 
 // Route::get('/', [ArticulosController::class, 'mostrarArticulos'])->name('home')->middleware(['auth']);
 

@@ -4,7 +4,8 @@
     <div class="card-columns">
     @if (isset($fotos) && count($fotos)) 
         @foreach ($fotos as $foto)
-            <div class="card shadow" onclick="showPhoto({{ (isset($foto->id_foto)) ? $foto->id_foto : ""}})">
+            <div class="card shadow" onclick="showPhoto({{ (isset($foto->id_foto)) ? $foto->id_foto : ""}},{{"'".$foto->created_at->diffForHumans()."'"}})">
+            {{-- <div class="card shadow" onclick="showPhoto({{"'".$foto->created_at->diffForHumans()."'" }})"> --}}
                 <img id="imgMostrar" src="/mostrarImg?img={{(isset($foto->img_foto)) ? $foto->img_foto : ""}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     @foreach (json_decode($foto->palabrasClaves) as $palabra)
@@ -17,7 +18,7 @@
                     @endforeach                                 
                     <p class="card-text mt-1 text-sans">{{(isset($foto->titulo_foto)) ? $foto->titulo_foto : ""}}</p>
                     <p class="mt-2 mb-0 pb-0 d-flex justify-content-between">
-                        <small class="text-muted">{{ (isset($foto->updated_at)) ? $foto->updated_at->diffForHumans() : ""}}</small>
+                        <small class="text-muted">{{ (isset($foto->created_at)) ? $foto->created_at->diffForHumans() : ""}}</small>
                     </p>
                 </div>
             </div>
@@ -193,7 +194,7 @@
                             <div class="col-12">
                             <hr class="m-0 p-0">
                                 <!-- <textarea class="text-sans mt-1" id="historyImg" ></textarea> -->
-                            <textarea name="pueb" id="textHistoriaArticulo" cols="30" rows="10" class="form-control text-sans" readonly>
+                            <textarea name="pueb" id="textHistoriaFoto" cols="30" rows="10" class="form-control text-sans" readonly>
                                
                             </textarea>
                         </div>  
