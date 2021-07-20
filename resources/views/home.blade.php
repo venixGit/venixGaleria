@@ -179,8 +179,17 @@
                 </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
                         <div class="row">
-                            <div class="col-12">                 
-                                 <h3 class="display-4" id="titleImg" name="titleImg"></h3>                       
+                            <div class="col-12 d-flex justify-content-between">                 
+                                 <h3 class="display-4" id="titleImg" name="titleImg"></h3>
+                                 <form method="POST" id="deletePhoto" action="{{-- {{ route('photo.delete') }} --}}">
+                                    @csrf
+                                    <input type="hidden" id="idPhotoDelete" name="idPhotoDelete">
+                                    <div id="divBtnEliminar">
+                                        <button type="button" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>   
+                                    </div>                  
+                                 </form>                       
                             </div>
                             <div class="col-12">
                                  <label id="fechaImg" name="fechaImg" class="text-muted"> <small></small></label>
@@ -194,15 +203,17 @@
                             <div class="col-12">
                             <hr class="m-0 p-0">
                                 <!-- <textarea class="text-sans mt-1" id="historyImg" ></textarea> -->
-                            <textarea name="pueb" id="textHistoriaFoto" cols="30" rows="10" class="form-control text-sans" readonly>
-                               
+                            <textarea name="pueb" id="textHistoriaFoto" cols="30" rows="10" class="form-control text-sans" readonly>                 
                             </textarea>
                         </div>  
                     </div>
                 </div>
             </div>
           </div>
-            <div class="modal-footer">
+            <div class="modal-footer d-flex justify-content-between">
+                <div id="divBtnEditar">
+                    <button type="button" class="btn btn-info">Editar Publicación</button>                    
+                </div>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
