@@ -87,7 +87,7 @@
 	<!-- Seccion de fotos -->
 	<div class="container">
 		<div class="row py-2 d-flex justify-content-between">
-			<button type="button" class="btn btn-success mt-2" data-toggle="modal" data-target="#newImg">
+			<button type="button" class="btn btn-success mt-2" 	onclick="showModalNewImg()">
 				Nueva Imagen
 			</button>
 			

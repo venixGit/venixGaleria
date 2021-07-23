@@ -34,36 +34,52 @@
     
 
     <!-- Modal new IMG-->
-{{-- guardar --}}
-@if (\Session::has('guardar'))
-    <div id="" class="alert-success">
-    {!! \Session::get('guardar')!!}
-    </div>
-@endif
+    {{-- guardar --}}
+    @if (\Session::has('guardar'))
+        <div id="" class="alert-success">
+        {!! \Session::get('guardar')!!}
+        </div>
+    @endif
 
-{{-- error --}}
-@if (\Session::has('error'))
-    <div id="" class="alert-danger">
-    {!! \Session::get('error')!!}
-    </div>
-@endif
+     {{-- actualizar --}}
+    @if (\Session::has('actualizar'))
+        <div id="" class="alert-success">
+        {!! \Session::get('actualizar')!!}
+        </div>
+    @endif
 
-    <form id="guardarImagen" action="{{route('guardarFotos')}}" {{-- class="guardarImagen" --}} method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="modal fade" id="newImg" tabindex="-1" role="dialog" aria-labelledby="newImgTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">               
-              <div class="modal-header">
-                <h5 class="modal-title" id="newImgTitle">Nueva Foto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              
-              <div class="modal-body">
+         {{-- eliminar --}}
+    @if (\Session::has('eliminar'))
+        <div id="" class="alert-success">
+        {!! \Session::get('eliminar')!!}
+        </div>
+    @endif
+
+    {{-- error --}}
+    @if (\Session::has('error'))
+        <div id="" class="alert-danger">
+        {!! \Session::get('error')!!}
+        </div>
+    @endif
+
+    <div class="modal fade" data-backdrop="static" id="newImg" tabindex="-1" role="dialog" aria-labelledby="newImgTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">               
+          <div class="modal-header">
+            <h5 class="modal-title" id="newImgTitle"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          
+          <div class="modal-body">
+            <form id="frmGuardarImagen" action="" method="POST" enctype="multipart/form-data">
+            @csrf
+            <!-- id Foto -->
+            <input type="hidden" id="idFotoUpdate" name="idFotoUpdate">
+            <input type="hidden" id="urlOldFoto" name="urlOldFoto">
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-
                         <div class="input-group mb-3">
                           <div class="custom-file">
                             <input  type="file" 
@@ -71,26 +87,20 @@
                                     id="imagen"
                                     name="imagen"  
                                     aria-describedby="inputGroupFileAddon04"
-                                    onchange="previewPhoto()"
-                                    
+                                    onchange="previewPhoto()"    
                             >
-                            {{-- @error('imagen')
-                                <br>
-                                <small>{{$message}}</small>
-                            @enderror --}}
-                            {{-- {!! $errors->first('imagen','<small>:message</small><br>')!!} --}}
                             <label class="custom-file-label" for="imgNew" data-browse="Buscar">Buscar Imagen</label>
                           </div>
                         </div>
-
                         <img id="imgPhoto" src="{{asset('img/app/blue_photo.svg')}}" class="img-fluid verFoto" alt="" style="max-height: 400px;">
                     </div>
+
                     <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
                         <div class="row">
                             <div class="col-12">
                                 <label for="txtTitulo" class="font-weight-normal">Titulo</label>
                                 <div class="input-group mb-3">
-                                    <input    type="text" 
+                                    <input  type="text" 
                                             class="form-control" 
                                             id="titulo" 
                                             name="titulo" 
@@ -99,17 +109,12 @@
                                             value="{{old('titulo_articulo')}}"
                                             {{-- required="" --}}       
                                     >
-                                    {{-- @error('titulo')
-                                        <br>
-                                        <small>{{$message}}</small>
-                                    @enderror --}}
-                                    {{-- {!!$errors->first('titulo','<small>:message</small><br>')!!}    --}}
                                 </div>
-                            </div>  
-                            <div class="col-12">
-                                <label for="txtPlabrasClave" class="font-weight-normal">Palabras Clave</label>
-                                <div class="input-group mb-3">
+                            </div>
 
+                            <div class="col-12">
+                                <label id="palabras_Clave" for="txtPlabrasClave" class="font-weight-normal">Palabras Clave</label>
+                                <div class="input-group mb-3">
                                 <input    type="text" 
                                             class="form-controls" 
                                             id="palabras_clave" 
@@ -120,13 +125,9 @@
                                             value="{{old('palabras_clave_articulo')}}" 
                                             {{-- required=""  --}}
                                 >
-                                {{-- @error('palabras_clave')
-                                    <br>
-                                    <small>{{$message}}</small>
-                                @enderror --}}
-                                {{-- {!!$errors->first('palabras_clave','<small>:message</small><br>')!!} --}}
                                 </div>
                             </div>
+
                             <div class="col-12">
                                 <label for="txtHistoria" class="font-weight-normal">Historia</label>
                                 <div class="input-group mb-3">
@@ -139,31 +140,27 @@
                                                 value="{{old('historia_articulo')}}"
                                                 {{-- required="" --}}
                                     ></textarea>
-                                   {{--  @error('historia')
-                                        <br>
-                                        <small>{{$message}}</small>
-                                    @enderror --}}
-                                    {{-- {!!$errors->first('historia','<small>:message</small><br>')!!}     --}}
                                 </div>
                             </div>  
                         </div>
                     </div>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                <button type="button" id="saveImagen" class="btn btn-success" onclick="savePhoto()">Guardar</button>
-                {{-- @if(Session::has('message'))
-                    {!! Session::get('message') !!}
-                @endif --}}
-              </div>
-            </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            <button type="button" id="saveImagen" class="btn btn-success" onclick="savePhoto()"></button>
+            {{-- @if(Session::has('message'))
+                {!! Session::get('message') !!}
+            @endif --}}
           </div>
         </div>
-    </form>
+      </div>
+    </div>
+ 
 
     <!-- Modal show IMG-->
-    <div class="modal fade" id="showImg" tabindex="-1" role="dialog" aria-labelledby="newImgTitle" aria-hidden="true">
+    <div class="modal fade d-blocks" id="showImg"{{--  tabindex="-1" --}} role="dialog" {{-- aria-labelledby="newImgTitle" aria-hidden="true" --}}>
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">        
         <div class="modal-content">
           <div class="modal-header">      
@@ -173,6 +170,7 @@
             </button>
           </div>
           <div class="modal-body">
+            
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
                     <img id="imgMostrarFoto" src="" class="img-fluid" alt="" style="height: 400px;">
@@ -181,11 +179,11 @@
                         <div class="row">
                             <div class="col-12 d-flex justify-content-between">                 
                                  <h3 class="display-4" id="titleImg" name="titleImg"></h3>
-                                 <form method="POST" id="deletePhoto" action="{{-- {{ route('photo.delete') }} --}}">
+                                 <form method="POST" id="frmDeletePhoto" action="{{ route('eliminarFoto') }}">
                                     @csrf
-                                    <input type="hidden" id="idPhotoDelete" name="idPhotoDelete">
+                                    <input type="hidden" id="idFotoDelete" name="idFotoDelete">
                                     <div id="divBtnEliminar">
-                                        <button type="button" class="btn btn-danger">
+                                        <button type="button" class="btn btn-danger"  onclick="eliminaPhoto()">
                                             <i class="fas fa-trash"></i>
                                         </button>   
                                     </div>                  
@@ -203,7 +201,7 @@
                             <div class="col-12">
                             <hr class="m-0 p-0">
                                 <!-- <textarea class="text-sans mt-1" id="historyImg" ></textarea> -->
-                            <textarea name="pueb" id="textHistoriaFoto" cols="30" rows="10" class="form-control text-sans" readonly>                 
+                            <textarea name="pueb" id="textHistoriaFoto" cols="30" rows="10" class="form-control text-sans" readonly>
                             </textarea>
                         </div>  
                     </div>
@@ -212,7 +210,10 @@
           </div>
             <div class="modal-footer d-flex justify-content-between">
                 <div id="divBtnEditar">
-                    <button type="button" class="btn btn-info">Editar Publicación</button>                    
+                    <button type="button" class="btn btn-info"  data-toggle="modal" data-target="#newImg" 
+                    onclick="editarModal()">
+                        Editar Publicación
+                    </button>
                 </div>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
