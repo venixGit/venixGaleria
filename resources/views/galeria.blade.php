@@ -69,6 +69,7 @@
 				<!-- El siguiente 'a' es temporal, debe usarse el boton comentado de arriba -->
 				<a class="btn btn-outline-danger mt-2" href="{{route('index')}}">Cerrar Sesión</a>
 			</div>
+			<!-- Este es cuadro -->
 			<section class="border mt-3 p-2">
 				<div class="card-columns"> 
 					<div class="card shadow" onclick="showPhoto(this)">
