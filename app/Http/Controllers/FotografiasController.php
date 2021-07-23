@@ -33,6 +33,7 @@ class FotografiasController extends Controller
                                 })
                                 ->where('estado', "=" , 1)
                                 ->with('palabrasClaves')
+                                ->orderBy('created_at','DESC')
                                 ->paginate(3);
                                 // ->get();
                                 
@@ -44,8 +45,9 @@ class FotografiasController extends Controller
             //para poder recorrerla en un foreach
             $fotos = Fotografias::where('estado', "=" , 1)
                                 ->with('palabrasClaves')
+                                ->orderBy('created_at','DESC')
                                 ->paginate(3);
-
+            // dd($fotos);
             //en este caso es mejor utilizar eloquent
             // $fotos = DB::table('fotografias')
             //                         ->leftjoin('palabras_claves', 'fotografias.id_foto', "=", 'palabras_claves.id_foto')
